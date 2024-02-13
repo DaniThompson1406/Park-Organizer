@@ -1,0 +1,69 @@
+# parameter: parksList
+# return: none
+# function: find oldest park
+ 
+def printOldestPark(parksList):
+ 
+    # declare variables
+ 
+    oldest_date = 100000
+    code = ""
+ 
+    # for loop that goes though every single date and find the one that has the smallest year
+    for item in parksList:
+        date_list = item["Date"].split("-")
+        date_curr = int(date_list[0])
+        if  date_curr < int(oldest_date):
+            oldest_date = date_curr
+            code = item["Code"]
+ 
+    # for loop that uses acquired code to print the oldest park in the required formatting
+ 
+    for item in parksList:
+        if code == item["Code"]:
+            print(item["Name"], "(" + item["Code"] + ")")
+            print("\tLocation:", item["State"])
+            print("\tArea:", item["Acres"], "acres")
+            date = tasks.getDate(item["Date"])
+            print("\tDate Established: " + date)
+            print("\tDescription: ", item["Description"].strip('"'))
+ 
+# parameters: parksList
+# return: none
+# function: find the state with the most parks
+ 
+def stateWithMoreParks(parksList):
+    stateDict = {}
+ 
+    # for loop that goes through every park and creates a dictionary with the number of times every state appeared
+ 
+    for item in parksList:
+        if item["State"] in stateDict:
+            item_current = item["State"]
+            stateDict[item_current] = stateDict[item_current] + 1
+        else:
+            stateDict[item["State"]] = 1
+ 
+    more_parks_num = 0
+    more_parks = " "
+ 
+    # for loop that converts the greatest number of parks into a state
+ 
+    for item in parksList:
+        if stateDict[item["State"]] > more_parks_num:
+            more_parks_num = stateDict[item["State"]]
+            more_parks = item["State"]
+ 
+    # prints a statements declaring the state that has the most parks
+ 
+    print("The state with the most parks is", more_parks)
+    print()
+ 
+    # for loop that prints all the parks in the state with the most parks
+    for item in parksList:
+        if str(more_parks) in str(item["State"]):
+            print(item["Name"], "(" + item["Code"] + ")")
+            print("\tLocation:", item["State"])
+            print("\tArea:", item["Acres"], "acres")
+            date = tasks.getDate(item["Date"])
+            print("\tDate Established: " + date)
