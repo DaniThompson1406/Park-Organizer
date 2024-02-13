@@ -1,0 +1,46 @@
+# Describe what this file does.
+ 
+import tasks
+import interface
+ 
+# parameters: none
+# return: none
+# function: main
+ 
+def main():
+ 
+    # print
+ 
+    print("National Parks")
+    print()
+ 
+    # call all these functions
+ 
+    list_parks = tasks.createListOfParks()
+    menu_dict = interface.getMenuDict()
+    interface.displayMenu(menu_dict)
+    user_in = interface.getUserInput(menu_dict)
+ 
+    # while loop that keeps printing menu and executing the functions asked by the user until he asks to quit
+ 
+    while user_in != "Q":
+        if user_in == "A":
+            interface.printAllParks(list_parks)
+        elif user_in == "B":
+            interface.printParksInState(list_parks)
+        elif user_in == "C":
+            interface.printLargestPark(list_parks)
+        elif user_in == "D":
+            interface.printParksForSearch(list_parks)
+        elif user_in == "E":
+            interface.printOldestPark(list_parks)
+        elif user_in == "F":
+            interface.stateWithMoreParks(list_parks)
+ 
+        # reprint menu and ask user for input again
+        print()
+        interface.displayMenu(menu_dict)
+        user_in = interface.getUserInput(menu_dict)
+ 
+ 
+main()
