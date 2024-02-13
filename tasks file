@@ -1,0 +1,127 @@
+# Description:
+# This file does tasks such as creating the list of parks, getting the largest park, and getting the date
+ 
+# parameter:  fileName is the name of the CSV file to read and it has a default value of "national_parks.csv"
+# return value: a list of dictionary objects where the keys are the strings from the header row and the values are the information from the rest of the CSV file
+# function: this function creates a list of parks
+ 
+def createListOfParks (fileName = "national_parks.csv"):
+ 
+    # open file
+ 
+    fin = open(fileName, "r")
+ 
+    # state variables
+ 
+    keys_string = fin.readline()
+    keys_string = keys_string.strip()
+    keys = keys_string.split(",")
+    parkListFunc = []
+ 
+    # for loop that goes through the function each line in fin and creates a dictionary
+ 
+    for line in fin:
+ 
+        # declaring variables
+ 
+        description = []
+        counter = 0
+        parkDict = {}
+ 
+        # splitting the info
+ 
+        park_info = line.strip()
+        park_info = park_info.split(",")
+ 
+        # nested for loop that matches each split line to keys
+ 
+        for info in park_info:
+            current_key = keys[counter]
+ 
+            # if else statement that puts anything after the 6th comma in a description key
+ 
+            if counter < 7:
+                counter = counter + 1
+                parkDict[current_key] = info
+            else:
+ 
+                # get all descriptions and join them together
+ 
+                description.append(info)
+                parkDict[current_key] = "".join(description)
+        parkListFunc.append(parkDict)
+ 
+    # close file
+ 
+    fin.close()
+ 
+    return parkListFunc
+ 
+# parameter: dataStr is a string containing the date (YYYY-MM-DD)
+# return value: a string with the date in the following format: Month Day, Year
+# function: this function gets the date in the right format
+ 
+def getDate(dataStr):
+ 
+    # list including the names of all months
+ 
+    month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    dataList = dataStr.split("-")
+ 
+    # elif loop that matches the numbers in the csv file to the names of the months
+ 
+    if dataList[1] == "01":
+        month = month_names[0]
+    elif dataList[1] == "02":
+        month = month_names[1]
+    elif dataList[1] == "03":
+        month = month_names[2]
+    elif dataList[1] == "04":
+        month = month_names[3]
+    elif dataList[1] == "05":
+        month = month_names[4]
+    elif dataList[1] == "06":
+        month = month_names[5]
+    elif dataList[1] == "07":
+        month = month_names[6]
+    elif dataList[1] == "08":
+        month = month_names[7]
+    elif dataList[1] == "09":
+        month = month_names[8]
+    elif dataList[1] == "10":
+        month = month_names[9]
+    elif dataList[1] == "11":
+        month = month_names[10]
+    elif dataList[1] == "12":
+        month = month_names[11]
+ 
+    # turn the date into a string and return it
+ 
+    readable_date = ""
+    readable_date = month+" "+dataList[2]+", "+dataList[0]
+    return readable_date
+ 
+# parameter: parksList is a list of the parks where each park is a dictionary
+# return value: a string that is the park code of the park with the largest area
+# function: this function gets the largest park
+ 
+def getLargestPark(parksList):
+ 
+    # declaring variable
+ 
+    largest_acre = 1
+    code = ""
+ 
+    # for loop that goes line by line checking to see if there is a higher sized park
+ 
+    for item in parksList:
+ 
+        acre = int(item["Acres"])
+        if acre >= largest_acre:
+ 
+            largest_acre = acre
+            code = item["Code"]
+ 
+        # return the code of highest sized park
+ 
+    return code
